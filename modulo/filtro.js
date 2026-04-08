@@ -19,17 +19,16 @@ function getListadeUsuarios() {
         contatos.push(listaDeContatos.name)
     })
 
-     usuarios.push(
-        status,
-        dadoUser.account,
-        dadoUser.nickname,
-        dadoUser["created-since"],
-        dadoUser["profile-image"],
-        dadoUser.number,
-        dadoUser.background,
-        contatos
-      );
-
+     usuarios.push({
+        "status":status,
+        "dados-user":dadoUser.account,
+        "nome-user":dadoUser.nickname,
+        "data-criacao":dadoUser["created-since"],
+        "foto":dadoUser["profile-image"],
+        "numero": dadoUser.number,
+        "foto-fundo":dadoUser.background,
+        "contatos":contatos
+     });
     });
 
   return usuarios;
@@ -41,21 +40,86 @@ function getDadosProfile(number){
     let usuarios = [];
 
     const numeroUser = number
+    
 
     whatsinfo.contatos["whats-users"].forEach(function(dadoUser){
         if(dadoUser.number == numeroUser){
             status = true
 
-            usuarios.push(
-                status,
-                dadoUser.account,
-                dadoUser.nickname,
-                dadoUser["created-since"],
-                dadoUser.number,
-                dadoUser.background
-            )
+            usuarios.push({
+              "status":  status,
+              "conta": dadoUser.account,
+              "nome-conta": dadoUser.nickname,
+              "data-criação": dadoUser["created-since"],
+              "numero": dadoUser.number,
+              "papel-parede": dadoUser.background
+         })
         }
     })
     return usuarios
 }
-console.log(getDadosProfile(11987876567))
+
+function getdadosContatosUser(number){
+
+    let usuario = []
+    let dadoContatos=[]
+    let status = false
+    const numeroUser = number
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadoUser){
+
+        if(dadoUser.number == numeroUser){
+            status = true
+
+            dadoUser.contacts.forEach(function(infoContato){
+                
+            dadoContatos.push({ // ! Pega todos os contados dentro do array do usuário filtrado
+                "nome":infoContato.name,
+                "imagem":infoContato.image,
+                "descrição":infoContato.description
+             })
+            })
+
+            usuario = {
+                "nome-user":dadoUser.account,
+                "numero":dadoUser.number,
+                "contatos": dadoContatos
+            }
+        }    
+    })
+    return usuario
+}
+
+function getMensagensTrocadas(number){
+
+    let usuario = []
+    let contatoUser = []
+    let mensagens = []
+    let status = false
+    const numeroUser = number
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
+        if(dadosUser.number == numeroUser){
+            status = true
+
+            dadosUser.contacts.forEach(function(dadosContatos){
+                contatoUser.push(dadosContatos.name)
+
+                dadosContatos.messages.forEach(function(infoMensagens){
+                    mensagens.push({
+                        "remetente": infoMensagens.sender,
+                        "mensagem": infoMensagens.content,
+                        "horário": infoMensagens.time
+                    })
+                })
+                usuario={
+                    "nome-user": dadosUser.account,
+                    "contato": dadosContatos.name,
+                    "mensagens": mensagens
+                }
+            })
+        }
+    })
+    return usuario
+}
+console.log(getMensagensTrocadas(11987876567))
