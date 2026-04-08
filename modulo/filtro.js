@@ -10,18 +10,17 @@ function getListadeUsuarios() {
   let status = false;
 
   let usuarios = [];
-  let dataCriacao = [];
   let contatos = [];
-
-
   
   whatsinfo.contatos["whats-users"].forEach(function (dadoUser) {
+    status = true;
 
     dadoUser.contacts.forEach(function(listaDeContatos){
         contatos.push(listaDeContatos.name)
     })
 
-      usuarios.push(
+     usuarios.push(
+        status,
         dadoUser.account,
         dadoUser.nickname,
         dadoUser["created-since"],
@@ -32,8 +31,31 @@ function getListadeUsuarios() {
       );
 
     });
-  status = true;
 
   return usuarios;
 }
-console.log(getListadeUsuarios());
+
+function getDadosProfile(number){
+
+    let status = false
+    let usuarios = [];
+
+    const numeroUser = number
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadoUser){
+        if(dadoUser.number == numeroUser){
+            status = true
+
+            usuarios.push(
+                status,
+                dadoUser.account,
+                dadoUser.nickname,
+                dadoUser["created-since"],
+                dadoUser.number,
+                dadoUser.background
+            )
+        }
+    })
+    return usuarios
+}
+console.log(getDadosProfile(11987876567))
