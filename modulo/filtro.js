@@ -101,7 +101,6 @@ function getMensagensTrocadas(number){
     whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
         if(dadosUser.number == numeroUser){
             status = true
-
             dadosUser.contacts.forEach(function(dadosContatos){
                 contatoUser.push(dadosContatos.name)
 
@@ -122,4 +121,40 @@ function getMensagensTrocadas(number){
     })
     return usuario
 }
-console.log(getMensagensTrocadas(11987876567))
+
+function listarMensagens(number,nameConversa){
+
+    const numeroUser = number
+    let status = false
+    let usuario = []
+    let mensagens = []
+
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
+
+        if(dadosUser.number == numeroUser){
+            status = true
+
+            dadosUser.contacts.forEach(function(dadosContatos){
+                if(nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()){
+
+                    dadosContatos.messages.forEach(function(infoMensagens){
+                        mensagens.push({
+                            "nome-contato":dadosContatos.name,
+                            "remetente": infoMensagens.sender,
+                            "mensagem": infoMensagens.content,
+                            "horário": infoMensagens.time
+                        })
+                    })
+                }
+            })
+        }
+        usuario = {
+            "nome": dadosUser.account,
+            "numero": dadosUser.number,
+            "conversas": mensagens
+        }
+    })
+    return usuario
+}
+
