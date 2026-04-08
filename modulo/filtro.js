@@ -180,4 +180,4 @@ function pesquisarPalavraChave(palavra){
     })
     return resultado
 }
-console.log(pesquisarPalavraChave('Leonid'))
+console.log(pesquisarPalavraChave('thinking'))
