@@ -133,8 +133,8 @@ function listarMensagens(number,nameConversa){
     whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
 
         if(dadosUser.number == numeroUser){
+            console.log(dadosUser.account)
             status = true
-
             dadosUser.contacts.forEach(function(dadosContatos){
                 if(nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()){
 
@@ -146,15 +146,38 @@ function listarMensagens(number,nameConversa){
                             "horário": infoMensagens.time
                         })
                     })
+                }else{
+                    return false
                 }
             })
-        }
-        usuario = {
-            "nome": dadosUser.account,
-            "numero": dadosUser.number,
-            "conversas": mensagens
+         usuario = {
+             "nome": dadosUser.account,
+             "numero": dadosUser.number,
+              "conversas": mensagens
+         }
         }
     })
     return usuario
 }
 
+function pesquisarPalavraChave(palavra){
+
+    let status = true
+    let usuario = []
+    let resultado = []
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
+        dadosUser.contacts.forEach(function(contatos){
+            contatos.messages.forEach(function(infoMensagens){
+                if(infoMensagens.content.toUpperCase().includes(palavra.toUpperCase())){
+                    resultado ={
+                        "contato": contatos.name,
+                        "mensagem": infoMensagens.content
+                    }
+                }
+            })
+        })
+    })
+    return resultado
+}
+console.log(pesquisarPalavraChave('Leonid'))
