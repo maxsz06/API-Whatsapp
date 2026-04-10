@@ -180,4 +180,3 @@ function pesquisarPalavraChave(palavra){
     })
     return resultado
 }
-console.log(pesquisarPalavraChave('thinking'))
