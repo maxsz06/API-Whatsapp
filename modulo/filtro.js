@@ -8,10 +8,10 @@ const whatsinfo = require("./contatos.js");
 
 function getListadeUsuarios() {
   let status = false;
-
   let usuarios = [];
   let contatos = [];
-  
+
+
   whatsinfo.contatos["whats-users"].forEach(function (dadoUser) {
     status = true;
 
@@ -38,10 +38,8 @@ function getDadosProfile(number){
 
     let status = false
     let usuarios = [];
-
     const numeroUser = number
     
-
     whatsinfo.contatos["whats-users"].forEach(function(dadoUser){
         if(dadoUser.number == numeroUser){
             status = true
@@ -161,16 +159,16 @@ function listarMensagens(number,nameConversa){
 
 function pesquisarPalavraChave(palavra) {
     let status = false
-    let resultado = {}
+    let resultado = []  // array em vez de objeto
 
     whatsinfo.contatos["whats-users"].forEach(function (dadosUser) {
         dadosUser.contacts.forEach(function (contatos) {
             contatos.messages.forEach(function (infoMensagens) {
                 if (infoMensagens.content.toUpperCase().includes(palavra.toUpperCase())) {
-                    resultado = {
+                    resultado.push({   // push em vez de atribuição
                         "contato": contatos.name,
                         "mensagem": infoMensagens.content
-                    }
+                    })
                     status = true
                 }
             })
@@ -188,4 +186,4 @@ module.exports={
     listarMensagens,
     pesquisarPalavraChave
 }
-console.log(pesquisarPalavraChave('Leonid'))
+console.log (getMensagensTrocadas(11966578996,'Ana Maria'))

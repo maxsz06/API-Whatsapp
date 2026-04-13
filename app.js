@@ -37,10 +37,24 @@ app.get("/v1/senai/dados/mensagens-trocadas/palavra-chave/:palavra",function(req
     }
 })
 
+app.get ('/v1/senai/dados/user/mensagens-trocadas/:number',function(request, response){
+  let number = request.params.number 
+  number = number.trim().replace(/\s+/g, "")
+  let infoMensagens = contatosWhats.getMensagensTrocadas(number)
+
+  if(infoMensagens.status){
+    response.status(200).json(infoMensagens)
+    }else{
+      response.status(404);
+      response.json({ mesage: "Numero não encontrado!!" });
+    }
+})
+
 app.get("/v1/senai/dados/mensagens-trocadas/numero/:number/",function(request, response){ // Resposnavel por mostrar Mensagens trocadas pelo Usuario  pelo paramentro (numero,nomeContato)
   let number = request.params.number
   let nome = request.query.nomeContato
-  let infoMensagemUser = contatosWhats.getMensagensTrocadas(number,nome) 
+  number = number.trim().replace(/\s+/g, "")
+  let infoMensagemUser = contatosWhats.listarMensagens(number,nome) 
 
   if(infoMensagemUser.status){
     response.status(200).json(infoMensagemUser)
@@ -51,20 +65,22 @@ app.get("/v1/senai/dados/mensagens-trocadas/numero/:number/",function(request, r
 
 })
 
-app.get("/v1/senai/dados/contato/user/numero/:number",function(request, response){ // End Point Responsavel por mostrar dados Do contato
+app.get("/v1/senai/dados/contato/user/numero/:number", function (request, response) {  
   let number = request.params.number
+  number = number.trim().replace(/\s+/g, "")  //  reatribui o resultado
+
   let infoContact = contatosWhats.getdadosContatosUser(number)
 
-  if(infoContact.status){
-    response.status(200).json(infoContact)
-    }else{
-      response.status(404);
-      response.json({ mesage: "Numero não encontrado!!" });
-    }
+  if (infoContact.status) {
+      response.status(200).json(infoContact)
+  } else {
+      response.status(404).json({ mesage: "Numero não encontrado!!" })
+  }
 })
 
 app.get("/v1/senai/dados/usuario/numero/:number",function(request, response){ // End point Responsavel por pegar dados do Perfil pelo (numero)
   let number = request.params.number
+  number = number.trim().replace(/\s+/g, "")
   let infoNumber = contatosWhats.getDadosProfile(number)
 
   if(infoNumber.status){
