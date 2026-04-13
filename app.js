@@ -26,6 +26,18 @@ const contatosWhats = require("./modulo/filtro.js")
 
 // ------------------------------------[END POINTS]-----------------------------------------------------
 
+app.get("/v1/senai/dados/contato/user/numero/:number",function(request, response){ // End Point Responsavel por mostrar dados Do contato
+  let number = request.params.number
+  let infoContact = contatosWhats.getdadosContatosUser(number)
+
+  if(infoContact.status){
+    response.status(200).json(infoContact)
+    }else{
+      response.status(404);
+      response.json({ mesage: "Numero não encontrado!!" });
+    }
+})
+
 app.get("/v1/senai/dados/usuario/numero/:number",function(request, response){ // End point Responsavel por pegar dados do Perfil pelo (numero)
   let number = request.params.number
   let infoNumber = contatosWhats.getDadosProfile(number)
@@ -50,7 +62,7 @@ app.get('/v1/senai/list/usuarios',function(request,response){  // End point Resp
 
 //------------------------------------------------------------------------------------------------------
 
-app.listen(7070, function () {
+app.listen(8080, function () {
   // Serve para inicializar a api para receber requisições
   console.log("API FUNCIONANDO E AGUARDANDO NOVAS REQUISIÇÕES ...");
 });
