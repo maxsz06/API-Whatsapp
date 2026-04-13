@@ -31,7 +31,7 @@ function getListadeUsuarios() {
      });
     });
 
-  return usuarios;
+  return {usuarios,status};
 }
 
 function getDadosProfile(number){
@@ -56,62 +56,61 @@ function getDadosProfile(number){
          })
         }
     })
-    return usuarios
+    return {status,dados: usuarios}
 }
 
-function getdadosContatosUser(number){
-
-    let usuario = []
-    let dadoContatos=[]
+function getdadosContatosUser(number) {
+    let dadoContatos = []
     let status = false
     const numeroUser = number
+    let usuario = {}
 
-    whatsinfo.contatos["whats-users"].forEach(function(dadoUser){
-
-        if(dadoUser.number == numeroUser){
+    whatsinfo.contatos["whats-users"].forEach(function (dadoUser) {
+        if (dadoUser.number == numeroUser) {
             status = true
 
-            dadoUser.contacts.forEach(function(infoContato){
-                
-            dadoContatos.push({ // ! Pega todos os contados dentro do array do usuário filtrado
-                "nome":infoContato.name,
-                "imagem":infoContato.image,
-                "descrição":infoContato.description
-             })
+            dadoUser.contacts.forEach(function (infoContato) {
+                dadoContatos.push({
+                    "nome": infoContato.name,
+                    "imagem": infoContato.image,
+                    "descrição": infoContato.description
+                })
             })
 
             usuario = {
-                "nome-user":dadoUser.account,
-                "numero":dadoUser.number,
+                "nome-user": dadoUser.account,
+                "numero": dadoUser.number,
                 "contatos": dadoContatos
             }
-        }    
+        }
     })
-    return usuario
+
+    return { status, dados: usuario }
 }
 
-function getMensagensTrocadas(number){
-
-    let usuario = []
+function getMensagensTrocadas(number) {
     let contatoUser = []
     let mensagens = []
     let status = false
     const numeroUser = number
+    let usuario = {}
 
-    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
-        if(dadosUser.number == numeroUser){
+    whatsinfo.contatos["whats-users"].forEach(function (dadosUser) {
+        if (dadosUser.number == numeroUser) {
             status = true
-            dadosUser.contacts.forEach(function(dadosContatos){
+
+            dadosUser.contacts.forEach(function (dadosContatos) {
                 contatoUser.push(dadosContatos.name)
 
-                dadosContatos.messages.forEach(function(infoMensagens){
+                dadosContatos.messages.forEach(function (infoMensagens) {
                     mensagens.push({
                         "remetente": infoMensagens.sender,
                         "mensagem": infoMensagens.content,
                         "horário": infoMensagens.time
                     })
                 })
-                usuario={
+
+                usuario = {
                     "nome-user": dadosUser.account,
                     "contato": dadosContatos.name,
                     "mensagens": mensagens
@@ -119,58 +118,57 @@ function getMensagensTrocadas(number){
             })
         }
     })
-    return usuario
+
+    return { status, dados: usuario }
 }
 
-function listarMensagens(number,nameConversa){
-
+function listarMensagens(number, nameConversa) {
     const numeroUser = number
     let status = false
-    let usuario = []
     let mensagens = []
+    let usuario = {}
 
-
-    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
-
-        if(dadosUser.number == numeroUser){
+    whatsinfo.contatos["whats-users"].forEach(function (dadosUser) {
+        if (dadosUser.number == numeroUser) {
             console.log(dadosUser.account)
             status = true
-            dadosUser.contacts.forEach(function(dadosContatos){
-                if(nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()){
 
-                    dadosContatos.messages.forEach(function(infoMensagens){
+            dadosUser.contacts.forEach(function (dadosContatos) {
+                if (nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()) {
+                    dadosContatos.messages.forEach(function (infoMensagens) {
                         mensagens.push({
-                            "nome-contato":dadosContatos.name,
+                            "nome-contato": dadosContatos.name,
                             "remetente": infoMensagens.sender,
                             "mensagem": infoMensagens.content,
                             "horário": infoMensagens.time
                         })
                     })
-                }else{
+                } else {
                     return false
                 }
             })
-         usuario = {
-             "nome": dadosUser.account,
-             "numero": dadosUser.number,
-              "conversas": mensagens
-         }
+
+            usuario = {
+                "nome": dadosUser.account,
+                "numero": dadosUser.number,
+                "conversas": mensagens
+            }
         }
     })
-    return usuario
+
+    return { status, dados: usuario }
 }
 
-function pesquisarPalavraChave(palavra){
+function pesquisarPalavraChave(palavra) {
+    let status = false
+    let resultado = {}
 
-    let status = true
-    let usuario = []
-    let resultado = []
-
-    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
-        dadosUser.contacts.forEach(function(contatos){
-            contatos.messages.forEach(function(infoMensagens){
-                if(infoMensagens.content.toUpperCase().includes(palavra.toUpperCase())){
-                    resultado ={
+    whatsinfo.contatos["whats-users"].forEach(function (dadosUser) {
+        dadosUser.contacts.forEach(function (contatos) {
+            contatos.messages.forEach(function (infoMensagens) {
+                if (infoMensagens.content.toUpperCase().includes(palavra.toUpperCase())) {
+                    status = true
+                    resultado = {
                         "contato": contatos.name,
                         "mensagem": infoMensagens.content
                     }
@@ -178,5 +176,15 @@ function pesquisarPalavraChave(palavra){
             })
         })
     })
-    return resultado
+
+    return { status, dados: resultado }
+}
+
+module.exports={
+    getListadeUsuarios,
+    getDadosProfile,
+    getdadosContatosUser,
+    getMensagensTrocadas,
+    listarMensagens,
+    pesquisarPalavraChave
 }
