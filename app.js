@@ -26,6 +26,20 @@ const contatosWhats = require("./modulo/filtro.js")
 
 // ------------------------------------[END POINTS]-----------------------------------------------------
 
+
+app.get("/v1/senai/dados/mensagens-trocadas/numero/:number",function(request, response){
+  let number = request.params.number
+  let infoMensagemUser = contatosWhats.getMensagensTrocadas(number) 
+
+  if(infoMensagemUser.status){
+    response.status(200).json(infoMensagemUser)
+    }else{
+      response.status(404);
+      response.json({ mesage: "Numero não encontrado!!" });
+    }
+
+})
+
 app.get("/v1/senai/dados/contato/user/numero/:number",function(request, response){ // End Point Responsavel por mostrar dados Do contato
   let number = request.params.number
   let infoContact = contatosWhats.getdadosContatosUser(number)
