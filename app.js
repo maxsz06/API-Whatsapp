@@ -103,8 +103,7 @@ app.get('/v1/senai/list/usuarios',function(request,response){  // End point Resp
 
 //------------------------------------------------------------------------------------------------------
 
-app.listen(8080, function () {
-  // Serve para inicializar a api para receber requisições
+const PORT = process.env.PORT || 8080
+app.listen(PORT, function () {
   console.log("API FUNCIONANDO E AGUARDANDO NOVAS REQUISIÇÕES ...");
 });
-
