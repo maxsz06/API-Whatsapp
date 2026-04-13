@@ -27,9 +27,10 @@ const contatosWhats = require("./modulo/filtro.js")
 // ------------------------------------[END POINTS]-----------------------------------------------------
 
 
-app.get("/v1/senai/dados/mensagens-trocadas/numero/:number",function(request, response){
+app.get("/v1/senai/dados/mensagens-trocadas/numero/:number/",function(request, response){ // Resposnavel por mostrar Mensagens trocadas pelo Usuario
   let number = request.params.number
-  let infoMensagemUser = contatosWhats.getMensagensTrocadas(number) 
+  let nome = request.query.nomeContato
+  let infoMensagemUser = contatosWhats.getMensagensTrocadas(number,nome) 
 
   if(infoMensagemUser.status){
     response.status(200).json(infoMensagemUser)

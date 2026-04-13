@@ -122,41 +122,41 @@ function getMensagensTrocadas(number) {
     return { status, dados: usuario }
 }
 
-function listarMensagens(number, nameConversa) {
+
+function listarMensagens(number,nameConversa){
+
     const numeroUser = number
     let status = false
+    let usuario = []
     let mensagens = []
-    let usuario = {}
 
-    whatsinfo.contatos["whats-users"].forEach(function (dadosUser) {
-        if (dadosUser.number == numeroUser) {
-            console.log(dadosUser.account)
+
+    whatsinfo.contatos["whats-users"].forEach(function(dadosUser){
+
+        if(dadosUser.number == numeroUser){
             status = true
 
-            dadosUser.contacts.forEach(function (dadosContatos) {
-                if (nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()) {
-                    dadosContatos.messages.forEach(function (infoMensagens) {
+            dadosUser.contacts.forEach(function(dadosContatos){
+                if(nameConversa.toUpperCase() == dadosContatos.name.toLocaleUpperCase()){
+
+                    dadosContatos.messages.forEach(function(infoMensagens){
                         mensagens.push({
-                            "nome-contato": dadosContatos.name,
+                            "nome-contato":dadosContatos.name,
                             "remetente": infoMensagens.sender,
                             "mensagem": infoMensagens.content,
                             "horário": infoMensagens.time
                         })
                     })
-                } else {
-                    return false
                 }
             })
-
-            usuario = {
-                "nome": dadosUser.account,
-                "numero": dadosUser.number,
-                "conversas": mensagens
-            }
+        }
+        usuario = {
+            "nome": dadosUser.account,
+            "numero": dadosUser.number,
+            "conversas": mensagens
         }
     })
-
-    return { status, dados: usuario }
+    return {status,usuario}
 }
 
 function pesquisarPalavraChave(palavra) {
@@ -188,3 +188,4 @@ module.exports={
     listarMensagens,
     pesquisarPalavraChave
 }
+console.log(listarMensagens(11987876567,'Ana Maria'))
