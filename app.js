@@ -25,9 +25,19 @@ app.use(cors(corsOptions)); // Configura as permissões da API através do CORS
 const contatosWhats = require("./modulo/filtro.js")
 
 // ------------------------------------[END POINTS]-----------------------------------------------------
+app.get("/v1/senai/dados/mensagens-trocadas/palavra-chave/:palavra",function(request, response){
+  let palavra = request.params.palavra
+  let infoFiltroPalavra = contatosWhats.pesquisarPalavraChave(palavra)
 
+  if(infoFiltroPalavra.status){
+    response.status(200).json(infoFiltroPalavra)
+    }else{
+      response.status(404);
+      response.json({ mesage: "Palavra não Encontrada!!" });
+    }
+})
 
-app.get("/v1/senai/dados/mensagens-trocadas/numero/:number/",function(request, response){ // Resposnavel por mostrar Mensagens trocadas pelo Usuario
+app.get("/v1/senai/dados/mensagens-trocadas/numero/:number/",function(request, response){ // Resposnavel por mostrar Mensagens trocadas pelo Usuario  pelo paramentro (numero,nomeContato)
   let number = request.params.number
   let nome = request.query.nomeContato
   let infoMensagemUser = contatosWhats.getMensagensTrocadas(number,nome) 

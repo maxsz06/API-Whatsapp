@@ -167,11 +167,11 @@ function pesquisarPalavraChave(palavra) {
         dadosUser.contacts.forEach(function (contatos) {
             contatos.messages.forEach(function (infoMensagens) {
                 if (infoMensagens.content.toUpperCase().includes(palavra.toUpperCase())) {
-                    status = true
                     resultado = {
                         "contato": contatos.name,
                         "mensagem": infoMensagens.content
                     }
+                    status = true
                 }
             })
         })
@@ -188,4 +188,4 @@ module.exports={
     listarMensagens,
     pesquisarPalavraChave
 }
-console.log(listarMensagens(11987876567,'Ana Maria'))
+console.log(pesquisarPalavraChave('Leonid'))
