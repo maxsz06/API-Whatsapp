@@ -145,8 +145,6 @@ app.get("/v1/senai/help", function (request, response) {
   response.json(docAPI);
 });
 
-
-
 //------------------------------------------------------------------------------------------------------
 
 const PORT = process.env.PORT || 8080
