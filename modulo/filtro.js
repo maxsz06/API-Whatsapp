@@ -186,4 +186,3 @@ module.exports={
     listarMensagens,
     pesquisarPalavraChave
 }
-console.log (getMensagensTrocadas(11966578996,'Ana Maria'))

@@ -100,6 +100,52 @@ app.get('/v1/senai/list/usuarios',function(request,response){  // End point Resp
   response.status(200).json(usuarios)
 })
 
+app.get("/v1/senai/help", function (request, response) {
+  let docAPI = {
+    "API-description": "API para manipular dados de contatos e mensagens do WhatsApp",
+    Date: "2026-04-15",
+    Development: "Maxwillian Santana",
+    GitHub: "https://github.com/maxsz06",
+    Linkedin: "https://www.linkedin.com/in/maxw06",
+    Version: "1.0",
+    "Endpoints:": [
+      {
+        id: 1,
+        rota: "/v1/senai/list/usuarios",
+        obs: "Retorna a lista de todos os usuários cadastrados",
+      },
+      {
+        id: 2,
+        rota: "/v1/senai/dados/usuario/numero/:number",
+        obs: "Retorna os dados do perfil filtrando pelo número do usuário",
+      },
+      {
+        id: 3,
+        rota: "/v1/senai/dados/contato/user/numero/:number",
+        obs: "Retorna os dados dos contatos de um usuário filtrando pelo número",
+      },
+      {
+        id: 4,
+        rota: "/v1/senai/dados/user/mensagens-trocadas/:number",
+        obs: "Retorna todas as mensagens trocadas por um usuário filtrando pelo número",
+      },
+      {
+        id: 5,
+        rota: "/v1/senai/dados/mensagens-trocadas/numero/:number?nomeContato=",
+        obs: "Retorna mensagens trocadas filtrando pelo número e opcionalmente pelo nome do contato (query: nomeContato)",
+      },
+      {
+        id: 6,
+        rota: "/v1/senai/dados/mensagens-trocadas/palavra-chave/:palavra",
+        obs: "Retorna mensagens que contenham a palavra-chave informada",
+      },
+    ],
+  };
+
+  response.json(docAPI);
+});
+
+
 
 //------------------------------------------------------------------------------------------------------
 
